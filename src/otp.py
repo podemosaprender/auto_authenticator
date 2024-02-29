@@ -10,10 +10,10 @@ import protobuf_generated_python.google_auth_pb2 as pb
 
 verbose = os.environ.get('LOGLVL',0)
 
-def main():
-	otp_cfg = extract_otp_from_otp_url( os.environ.get('OTP_URL') )
-	print(json.dumps(otp_cfg, indent=2))
-	print(get_two_factor_code(otp_cfg))
+def two_factor_code_for_url(url):
+	otp_cfg = extract_otp_from_otp_url( url )
+	if verbose: print(json.dumps(otp_cfg, indent=2))
+	return get_two_factor_code(otp_cfg)
 
 #FROM: https://github.com/jan-janssen/pyauthenticator
 def get_two_factor_code(otp_cfg):
@@ -126,4 +126,4 @@ def abort(msg, exception= None) -> None:
 	sys.exit(1)
 
 if __name__ == '__main__':
-	main()
+	print( two_factor_code_for_url( os.environ.get('OTP_URL') ) )
